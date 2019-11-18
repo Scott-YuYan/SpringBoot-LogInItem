@@ -56,5 +56,4 @@ public class AuthController {
             return new Result("fail","用户不存在",false);
         }
     }
-
 }
