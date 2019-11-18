@@ -60,7 +60,6 @@ public class AuthController {
         }catch (BadCredentialsException e){
             //说明用户名密码不对
             return new Result("fail","密码错误",false);
-
         }
     }
 }
