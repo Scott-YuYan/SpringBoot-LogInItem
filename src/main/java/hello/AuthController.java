@@ -54,6 +54,7 @@ public class AuthController {
         }catch (BadCredentialsException e){
             //说明用户名密码不对
             return new Result("fail","用户不存在",false);
+
         }
     }
 }
