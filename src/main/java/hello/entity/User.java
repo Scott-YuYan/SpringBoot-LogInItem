@@ -10,6 +10,7 @@ public class User {
     private Instant createdAt;
     private Instant updatedAt;
 
+
     public User(int id, String name, String avatar, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.name = name;

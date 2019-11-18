@@ -14,6 +14,7 @@ public class JavaConfiguration {
         return new testUser(1,"lisi");
     }
 
+
     @Bean
     public UserService userService(){
         return new UserService();

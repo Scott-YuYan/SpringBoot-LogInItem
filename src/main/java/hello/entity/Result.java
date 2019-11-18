@@ -7,6 +7,7 @@ public class Result {
     private User user;
 
 
+
     public Result(String status, String msg, boolean isLogIn) {
         this(status, msg, isLogIn, null);
     }

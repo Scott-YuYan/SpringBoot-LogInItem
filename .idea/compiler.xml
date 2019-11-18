@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="my-spring-boot" target="1.8" />
+      <module name="SpringBoot-LogInItem" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
