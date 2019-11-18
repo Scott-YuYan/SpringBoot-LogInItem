@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,12 @@ public class AuthController {
         String username = (String) nameAndPassword.get("username");
         String password = (String) nameAndPassword.get("password");
         //获取用户名所对应的真正的密码
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails;
+        try {
+            userDetails = userDetailsService.loadUserByUsername(username);
+        }catch (UsernameNotFoundException e){
+            return new Result("fail","用户不存在",false);
+        }
         //将两个密码进行比较
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
         //比较的结果如果成功，则会为该对象填充好对应的权限，否则丢出异常
@@ -53,7 +59,7 @@ public class AuthController {
             return new Result("ok","登录成功",true,user);
         }catch (BadCredentialsException e){
             //说明用户名密码不对
-            return new Result("fail","用户不存在",false);
+            return new Result("fail","密码错误",false);
 
         }
     }
