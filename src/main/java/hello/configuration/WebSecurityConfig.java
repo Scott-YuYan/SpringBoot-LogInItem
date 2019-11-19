@@ -1,5 +1,12 @@
 package hello.configuration;
 
+
+
+
+
+
+
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,11 +17,18 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+>>>>>>> yy
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+<<<<<<< HEAD
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+=======
+>>>>>>> yy
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -24,6 +38,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/auth/**").permitAll();
     }
 
+<<<<<<< HEAD
+    @Bean
+    public AuthenticationManager customAuthenticationManager() throws Exception {
+        return authenticationManager();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder managerBuilder) throws Exception {
+        managerBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+=======
 
     //告诉SpringBoot只有名字为user，密码是password的用户是合法用户。
     @Bean
@@ -42,5 +71,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationManager customAuthenticationManager() throws Exception {
         return authenticationManager();
+>>>>>>> yy
     }
 }
