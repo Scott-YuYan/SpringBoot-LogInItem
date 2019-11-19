@@ -2,6 +2,8 @@ package hello;
 
 import hello.entity.Result;
 import hello.entity.User;
+import hello.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,15 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.inject.Inject;
 import java.time.Instant;
 import java.util.Map;
 
 @RestController
 public class AuthController {
-
     private UserDetailsService userDetailsService;
     private AuthenticationManager authenticationManager;
 
+    @Inject
     public AuthController(UserDetailsService userDetailsService, AuthenticationManager authenticationManager) {
         this.userDetailsService = userDetailsService;
         this.authenticationManager = authenticationManager;
@@ -33,7 +36,7 @@ public class AuthController {
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public Object getAuth() {
-        return new Result("ok","用户没有登录",false);
+        return new Result("ok", "用户没有登录", false);
     }
 
     @PostMapping(value = "/auth/login")
@@ -45,23 +48,21 @@ public class AuthController {
         UserDetails userDetails;
         try {
             userDetails = userDetailsService.loadUserByUsername(username);
-        }catch (UsernameNotFoundException e){
-            return new Result("fail","用户不存在",false);
+        } catch (UsernameNotFoundException e) {
+            return new Result("fail", "用户不存在", false);
         }
         //将两个密码进行比较
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
         //比较的结果如果成功，则会为该对象填充好对应的权限，否则丢出异常
         try {
             authenticationManager.authenticate(token);
             //鉴权成功
             SecurityContextHolder.getContext().setAuthentication(token);
-            User user = new User(1,username,"头像 url", Instant.now(),Instant.now());
-            return new Result("ok","登录成功",true,user);
-        }catch (BadCredentialsException e){
+            User user = new User(1, username, "头像 url", Instant.now(), Instant.now());
+            return new Result("ok", "登录成功", true, user);
+        } catch (BadCredentialsException e) {
             //说明用户名密码不对
-            return new Result("fail","密码错误",false);
-
-
+            return new Result("fail", "密码错误", false);
         }
     }
 }
